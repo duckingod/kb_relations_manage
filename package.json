@@ -1,0 +1,16 @@
+{
+  "name": "nodejs_test",
+  "version": "1.0.0",
+  "description": "Run on ubuntu.",
+  "main": "test.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "orm": "^3.2.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
