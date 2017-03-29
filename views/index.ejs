@@ -2,21 +2,30 @@
 <html ng-app="myapp">
     <head>
         <meta charset="utf-8"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/>
+        </script>
         <script src="js/index.js"/></script>
         <link rel="stylesheet" type="text/css" href="css/style.css"/></link>
     </head>
 <body>
 
 <div>
-    <table ng-controller="indexController">
-        <tr np-repeat="r in ctrl.relations">
+    <table>
+        <tr ng-repeat="r in triples" ng-controller="indexController">
             <td> {{ r.first }} </td>
             <td> {{ r.relation }} </td>
             <td> {{ r.second }} </td>
         </tr>
     </table>
     <div id="bottombar">hiiiiiiiii</div>
+    <div>
+        <form action="/ajax/kbtriple" method="post">
+              First: <input type="text" name="firstname"><br>
+              Relation: <input type="text" name="relation"><br>
+              Second: <input type="text" name="second"><br>
+              <input type="submit" value="Submit">
+        </form>
+    </div>
 
 </div>
 

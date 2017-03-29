@@ -4,9 +4,11 @@
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-# install express
-npm install express
+# install sqlite3
+sudo apt-get install sqlite3
 
-# install orm for express
-npm install orm
+# install express
+npm install express sqlite body-parser lodash sequelize
+
+node setup/init_db.js
 
