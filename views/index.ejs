@@ -2,30 +2,56 @@
 <html ng-app="myapp">
     <head>
         <meta charset="utf-8"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/>
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/> </script>
         <script src="js/index.js"/></script>
         <link rel="stylesheet" type="text/css" href="css/style.css"/></link>
+
+        <!-- 最新編譯和最佳化的 CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <!-- 選擇性佈景主題 -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <!-- 最新編譯和最佳化的 JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
     </head>
 <body>
 
-<div>
-    <table>
-        <tr ng-repeat="r in triples" ng-controller="indexController">
-            <td> {{ r.first }} </td>
-            <td> {{ r.relation }} </td>
-            <td> {{ r.second }} </td>
-        </tr>
-    </table>
-    <div id="bottombar">hiiiiiiiii</div>
-    <div>
-        <form action="/ajax/kbtriple" method="post">
-              First: <input type="text" name="firstname"><br>
-              Relation: <input type="text" name="relation"><br>
-              Second: <input type="text" name="second"><br>
-              <input type="submit" value="Submit">
-        </form>
+
+<div ng-controller="test" class="container">
+    <div ng-controller="index">
+        <div class="row"> <div class="col-md-12">
+        {{ debug }} <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> First </th>
+                    <th> Relation </th>
+                    <th> Second </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="r in triples | filter:formData" >
+                    <td> {{ r.first }} </td>
+                    <td> {{ r.relation }} </td>
+                    <td> {{ r.second }} </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+            <div id="bottombar" class="col-md-8">
+                <form class="form-inline" ng-submit="submit()">
+                    <div style="margin:12px auto; text-align:center; " >
+                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" ng-model="formData.first" placeholder="first"> 
+                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" ng-model="formData.relation" placeholder="relation"> 
+                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" ng-model="formData.second" placeholder="second">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
 
 </div>
 

@@ -15,10 +15,12 @@ models.sequelize
 app.disable('view cache');
 
 app.set('views', path.join(__dirname, 'views'));
-app.use("/js", express.static(__dirname + '/javascripts'));
+app.use("/js", express.static(__dirname + '/controller'));
 app.use("/css", express.static(__dirname + '/styles'));
 app.set('view engine', 'ejs');
-app.use(bodyParser);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 //
 // Functions
@@ -41,29 +43,25 @@ function toJSON(obj, fields) {
 
 app.route('/')
     .get(function(req, res) {
-        // get list of all kbtriple by ajax
+        // get list of all kbtriple by ajax in angularjs
         return res.render('index');
     });
 
-
-app.route('/ajax/kbtriple')
+app.route('/api/kbtriple')
     .get(function(req, res) {
-        KBTriple.findAll({plain:true}).then(function(triples) {
-            console.log(triples);
-            res.send(triples);
+        KBTriple.findAll().then(function(triples) {
+            return res.send(JSON.stringify(triples));
         });
     })
     .post(function(req, res) {
         // create new kbtriple
         var params = _.pick(req.body, 'first', 'relation', 'second');
         params.symmetric = false;
-        console.log(params);
-        console.log(req.body);
         KBTriple.create(params).then(function(triple){
             return res.send(triple);
-        })
+        });
     });
-app.route('/ajax/kbtriple/:kb_id')
+app.route('/api/kbtriple/:kb_id')
     .post(function(req) {
         // patch a kbtriple
         var params = _.pick(req.body, 'first', 'relation', 'second');
