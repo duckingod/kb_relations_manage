@@ -20,7 +20,6 @@ All TODO
    - Auto complete
 #### Implement
  - show/search list by angularjs
-    <br>
  - Create/edit/remove relation/entity
   - angularjs change value in front-end
   - angularjs use ajax to change value in back-end

@@ -1,4 +1,5 @@
 var app = angular.module("myapp", []);
-app.controller("indexController", [function() {
-    this.relations = [{first:"AAA", second:"BBB", relation:"R"}];
+app.controller('indexController', ['$scope',
+  function($scope) {
+    $scope.greeting = { text: 'Hello' };
 }]);
