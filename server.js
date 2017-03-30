@@ -26,16 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Functions
 //
 
-// Database Object to JSON
-function toJSON(obj, fields) {
-    if (typeof(obj)==Array) {
-        res = [];
-        for (o in obj) {
-            res.append()
-        }
-    } 
-}
-
 
 //
 // Router
@@ -55,16 +45,20 @@ app.route('/api/kbtriple')
     })
     .post(function(req, res) {
         // create new kbtriple
-        var params = _.pick(req.body, 'first', 'relation', 'second');
-        params.symmetric = false;
+        var params = _.pick(req.body, 'first', 'relation', 'second', 'symmetric', 'temporal');
         KBTriple.create(params).then(function(triple){
             return res.send(triple);
         });
     });
 app.route('/api/kbtriple/:kb_id')
-    .post(function(req) {
+    .post(function(req, res) {
         // patch a kbtriple
         var params = _.pick(req.body, 'first', 'relation', 'second');
+    })
+    .delete((req, res) => {
+        var id = req.params.kb_id;
+        KBTriple.destroy({where:{id:id}});
+        return id;
     });
 
 

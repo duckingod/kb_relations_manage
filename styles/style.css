@@ -1,11 +1,44 @@
-#bottombar {
-    background-color: #efefec;
-    position: fixed; !important;
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
     bottom: 0;
-    z-index: 5;
-    border: 1px solid #999999;
-    background-repeat:repeat-x;
-    color:#222222;
-    _position:absolute;
-    _top:expression(document.body.scrollTop+document.body.clientHeight-this.clientHeight);
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+.large-font {
+    font-size: 16pt;
+}
+.object-attr {
+    font-size: 12pt;
+    color: #555;
+}
+.object-attr .sym {
+    color: #AA4;
+    display:inline;
+}
+.object-attr .temp {
+    color: #4AA;
+    display:inline;
+}
+.href-like {
+    background:none!important;
+    color:inherit;
+    border:none; 
+    padding:0!important;
+    font: inherit;
+    /*border is optional*/
+    font-size: 12pt;
+    color: #04B;
+    border-bottom:1px solid #444; 
+    cursor: pointer;
 }

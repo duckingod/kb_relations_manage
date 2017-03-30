@@ -1,56 +1,91 @@
 <!DOCTYPE html>
 <html ng-app="myapp">
-    <head>
-        <meta charset="utf-8"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/> </script>
-        <script src="js/index.js"/></script>
-        <link rel="stylesheet" type="text/css" href="css/style.css"/></link>
+   <head>
+      <meta charset="utf-8"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/> </script>
+      <script src="js/index.js"/></script>
+      <link rel="stylesheet" type="text/css" href="css/style.css"/></link>
+      <title>個人der KB 屬性</title>
 
-        <!-- 最新編譯和最佳化的 CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <!-- 選擇性佈景主題 -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-        <!-- 最新編譯和最佳化的 JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <!-- 最新編譯和最佳化的 CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+      <!-- 選擇性佈景主題 -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+      <!-- 最新編譯和最佳化的 JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-    </head>
+   </head>
 <body>
 
 
-<div ng-controller="test" class="container">
-    <div ng-controller="index">
-        <div class="row"> <div class="col-md-12">
-        {{ debug }} <br>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th> First </th>
-                    <th> Relation </th>
-                    <th> Second </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="r in triples | filter:formData" >
-                    <td> {{ r.first }} </td>
-                    <td> {{ r.relation }} </td>
-                    <td> {{ r.second }} </td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-        <div class="row">
-            <div id="bottombar" class="col-md-8">
-                <form class="form-inline" ng-submit="submit()">
-                    <div style="margin:12px auto; text-align:center; " >
-                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" ng-model="formData.first" placeholder="first"> 
-                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" ng-model="formData.relation" placeholder="relation"> 
-                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" ng-model="formData.second" placeholder="second">
-                    <input type="submit" value="Submit" class="btn btn-primary">
-                    </div>
-                </form>
+<div ng-controller="test" >
+   <div ng-controller="index" >
+      <div class="container">
+         <div class="row">
+            <div class="col-md-8 col-md-offset-2 large-font">
+               <div class="page-header">
+                  <h2> Personal Knowledge Base Relations </h2>
+               </div>
+               <table class="table table-striped">
+                  <thead>
+                     <tr>
+                        <th> First </th>
+                        <th> Relation </th>
+                        <th> Second </th>
+                        <th> Type </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="r in triples | filter:{first:formData.first, second:formData.second, relation:formData.relation}" >
+                        <td> {{ r.first }} </td>
+                        <td> {{ r.relation }} </td>
+                        <td> {{ r.second }} </td>
+                        <td class="object-attr">
+                           <div class="sym" ng-show="r.symmetric">Sym</div>
+                           <div class="temp" ng-show="r.temporal">Temp</div>
+                        <td>
+                           <div style="font-size:14pt">
+                           <input type="submit" value="Delete" class="href-like" ng-click="delete(r)"/>
+                           |
+                           <input type="submit" value="Edit" class="href-like" ng-click="edit(r)"/>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+      <div class="footer">
+         <div class="container">
+            <form class="form-inline" ng-submit="submit()">
+               <div style="margin:12px auto; text-align:center; " >
+                  <input type="text"
+                         class="form-control mt-5 mb-2 mr-sm-1 mb-sm-0"
+                         ng-model="formData.first" placeholder="first"> 
+                  <input type="text"
+                         class="form-control mb-2 mr-sm-1 mb-sm-0"
+                         ng-model="formData.relation" placeholder="relation"> 
+                  <input type="text"
+                         class="form-control mb-2 mr-sm-1 mb-sm-0"
+                         ng-model="formData.second" placeholder="second">
+                  <div class="checkbox">
+                     <label>
+                        <input type="checkbox" ng-model="formData.symmetric">
+                        Symmetric
+                     </label>
+                     <label>
+                        <input type="checkbox" ng-model="formData.temporal">
+                        Temporal
+                     </label>
+                  </div>
+               <input type="submit" value="Submit" class="btn btn-primary">
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
 
 
 </div>
