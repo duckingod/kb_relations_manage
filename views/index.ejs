@@ -37,7 +37,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="r in triples | filter:{first:formData.first, second:formData.second, relation:formData.relation}" >
+                     <tr ng-repeat="r in triples | filter:{first:formData.first, second:formData.second, relation:formData.relation} | orderBy:['first', 'second', 'relation']" >
                         <td> {{ r.first }} </td>
                         <td> {{ r.relation }} </td>
                         <td> {{ r.second }} </td>
