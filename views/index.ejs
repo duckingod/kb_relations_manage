@@ -37,20 +37,27 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="r in triples | filter:{first:formData.first, second:formData.second, relation:formData.relation} | orderBy:['first', 'second', 'relation']" >
-                        <td> {{ r.first }} </td>
-                        <td> {{ r.relation }} </td>
-                        <td> {{ r.second }} </td>
+                     <tr ng-repeat="r in triples | filter:{headEntity:formData.headEntity, tailEntity:formData.tailEntity, relation:formData.relation} | orderBy:['headEntity', 'tailEntity', 'relation']">
+                        <td ng-repeat="field in ['headEntity', 'relation', 'tailEntity']">
+                           <div ng-hide="r.editing"> {{ r[field] }} </div>
+                           <div ng-show="r.editing">
+                              <input type="text" class="edit-inline" placeholder="{{r[field]}}" width="10" ng-model="edited[f]">
+                           </div>
+                        </td>
                         <td class="object-attr">
                            <div class="sym" ng-show="r.symmetric">Sym</div>
                            <div class="temp" ng-show="r.temporal">Temp</div>
                         <td>
-                           <div style="font-size:14pt">
-                           <input type="submit" value="Delete" class="href-like" ng-click="delete(r)"/>
-                           |
-                           <input type="submit" value="Edit" class="href-like" ng-click="edit(r)"/>
+                           <div style="font-size:14pt" ng-hide="r.editing">
+                              <input type="submit" value="Edit" class="href-like" ng-click="edit(r)"/>
+                              |
+                              <input type="submit" value="Delete" class="href-like" ng-click="delete(r)"/>
+                           </div>
+                           <div style="font-size:14pt" ng-show="r.editing">
+                           <input type="submit" value="Done" class="href-like" ng-click="edit_done(r, edited)"/>
                            </div>
                         </td>
+                        
                      </tr>
                   </tbody>
                </table>
@@ -63,13 +70,13 @@
                <div style="margin:12px auto; text-align:center; " >
                   <input type="text"
                          class="form-control mt-5 mb-2 mr-sm-1 mb-sm-0"
-                         ng-model="formData.first" placeholder="first"> 
+                         ng-model="formData.headEntity" placeholder="first"> 
                   <input type="text"
                          class="form-control mb-2 mr-sm-1 mb-sm-0"
                          ng-model="formData.relation" placeholder="relation"> 
                   <input type="text"
                          class="form-control mb-2 mr-sm-1 mb-sm-0"
-                         ng-model="formData.second" placeholder="second">
+                         ng-model="formData.tailEntity" placeholder="second">
                   <div class="checkbox">
                      <label>
                         <input type="checkbox" ng-model="formData.symmetric">

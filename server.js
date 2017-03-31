@@ -45,7 +45,7 @@ app.route('/api/kbtriple')
     })
     .post(function(req, res) {
         // create new kbtriple
-        var params = _.pick(req.body, 'first', 'relation', 'second', 'symmetric', 'temporal');
+        var params = _.pick(req.body, 'headEntity', 'relation', 'tailEntity', 'symmetric', 'temporal');
         KBTriple.create(params).then(function(triple){
             return res.send(triple);
         });
@@ -53,7 +53,7 @@ app.route('/api/kbtriple')
 app.route('/api/kbtriple/:kb_id')
     .post(function(req, res) {
         // patch a kbtriple
-        var params = _.pick(req.body, 'first', 'relation', 'second');
+        var params = _.pick(req.body, 'headEntity', 'relation', 'tailEntity');
     })
     .delete((req, res) => {
         var id = req.params.kb_id;

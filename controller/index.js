@@ -8,7 +8,11 @@ app.controller('test', ['$scope', '$http', ($scope, $http) => {
 }]);
 app.controller('index', ['$scope', '$http', ($scope, $http) => {
     $scope.triples = [];
-    $http.get('api/kbtriple').then(r => angular.forEach(r.data, item => $scope.triples.push(item)));
+    $http.get('api/kbtriple').then(r => angular.forEach(r.data, item => {
+        item.editing = false;
+        $scope.triples.push(item);
+        //$scope.triples.push({first:'aaa', relation:'bbb', second:"cc"});
+    }));
     $scope.debug = "im debug msg";
 
     $scope.formData = {first:"", relation:"", second:"", symmetric:false, temporal:false};
@@ -22,11 +26,12 @@ app.controller('index', ['$scope', '$http', ($scope, $http) => {
 
     $scope.submit = () =>
         $http.post("api/kbtriple", $scope.formData).then( (res) => {
-            $scope.formData.first = "";
-            $scope.formData.second = "";
+            $scope.formData.headEntity = "";
+            $scope.formData.tailEntity = "";
             $scope.formData.relation = "";
             $scope.formData.symmetric = false;
             $scope.formData.temporal = false;
+            res.data.editing = false;
             $scope.triples.push(res.data);
             $scope.debug = res.data;
         });
@@ -37,10 +42,7 @@ app.controller('index', ['$scope', '$http', ($scope, $http) => {
         $http.delete("api/kbtriple/"+triple.id, {}).then( (res) => { });
     };
     $scope.edit = triple => {
-        $scope.formData.first = triple.first;
-        $scope.formData.relation = triple.relation;
-        $scope.formData.second = triple.second;
-        $scope.delete(triple);
+        triple.editing=true;
     }
 }]);
 
