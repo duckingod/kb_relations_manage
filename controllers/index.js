@@ -35,14 +35,18 @@ app.controller('index', ['$scope', '$http', ($scope, $http) => {
         {name:'tailEntity', text:'Second'}
     ];
 
+    init_relation_dict = (dict) => {
+        set_dict(dict, kbtripleStringFields, (f) => "");
+        set_dict(dict, kbtripleBooleanFields, (f) => false);
+    };
+
     $scope.triples = [];
     $scope.formData = {};
-    $scope.editingTriple = {};
+    $scope.editingTriple = {id:-1};
+    $scope.editingTripleId = -1;
 
-    set_dict($scope.editingTriple, kbtripleStringFields, (f) => "");
-    set_dict($scope.editingTriple, kbtripleBooleanFields, (f) => false);
-    set_dict($scope.formData, kbtripleStringFields, (f) => "");
-    set_dict($scope.formData, kbtripleBooleanFields, (f) => false);
+    init_relation_dict($scope.editingTriple);
+    init_relation_dict($scope.formData);
 
     // read relations
     $http.get('api/kbtriple').then(r => angular.forEach(r.data, item => {
@@ -50,33 +54,27 @@ app.controller('index', ['$scope', '$http', ($scope, $http) => {
         $scope.triples.push(item);
     }));
 
+    $scope.editing = triple => $scope.editingTriple.id==triple.id;
 
-    $scope.submit = () =>
-        $http.post("api/kbtriple", $scope.formData).then( (res) => {
-            set_dict($scope.formData, kbtripleStringFields, (f) => "");
-            set_dict($scope.formData, kbtripleBooleanFields, (f) => false);
-            res.data.editing = false;
-            $scope.triples.push(res.data);
-            $scope.debug = res.data;
-            $("#relationInput").focus();
-        });
+    $scope.submit = () => {
+        $http.post("api/kbtriple", $scope.formData);
+        $scope.triples.push($scope.formData);
+        init_relation_dict($scope.formData);
+        $("#relationInput").focus();
+    }
     $scope.delete = triple => {
         var idx = $scope.triples.indexOf(triple);
         $scope.triples.splice(idx, 1);
-        $scope.debug = $scope.triples;
         $http.delete("api/kbtriple/"+triple.id, {});
     };
     $scope.edit = (triple, editingTriple) => {
-        set_dict(editingTriple, kbtripleFields, (field) => triple[field]);
-        $scope.triples.forEach( (t) => t.editing=false );
-        triple.editing = true;
+        set_dict(editingTriple, kbtripleFields.concat(['id']), (field) => triple[field]);
     }
     $scope.editDone = (triple, edited) => {
         set_dict(triple, kbtripleFields, (field) => edited[field]);
-        $scope.debug = edited;
+        $scope.editingTriple.id = -1;
         $http.post("api/kbtriple/"+triple.id, edited);
-        triple.editing = false;
     };
-    $scope.editExit = () => $scope.triples.forEach( (t) => t.editing=false );
+    $scope.editExit = () => $scope.editingTriple.id = -1;
 }]);
 
