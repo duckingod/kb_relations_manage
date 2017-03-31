@@ -38,6 +38,13 @@ body {
     width: 100%;
 }
 
+.ani-test {
+    transition: all linear 0.3s;
+}
+.ani-test.editing {
+    background: #f2faff;
+}
+
 .href-like {
     background:none!important;
     color:inherit;

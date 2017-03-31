@@ -36,24 +36,28 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="r in triples | filter:{headEntity:formData.headEntity, tailEntity:formData.tailEntity, relation:formData.relation} | orderBy:['headEntity', 'tailEntity', 'relation']">
-                        <td ng-repeat="attr in stringAttrs">
+                      <tr ng-repeat="r in triples |
+                      filter:{headEntity:formData.headEntity,
+                              tailEntity:formData.tailEntity,
+                              relation:formData.relation} |
+                          orderBy:['headEntity', 'tailEntity', 'relation']" >
+                          <td ng-repeat="attr in stringAttrs" class="ani-test" ng-class="{editing: editing(r)}">
                            <div ng-hide="editing(r)"> {{ r[attr.name] }} </div>
                            <div ng-show="editing(r)">
                                <input type="text" class="edit-inline" placeholder="{{r[attr.name]}}" width="10" ng-model="editingTriple[attr.name]">
                            </div>
                         </td>
-                        <td class="object-attr">
+                        <td class="object-attr ani-test" ng-class="{editing: editing(r)}">
                            <div style="display:inline" ng-repeat="attr in booleanAttrs">
                               <div class="{{attr.name}}" ng-show="r[attr.name] && !editing(r)">{{attr.text}}</div>
-                              <div class="{{attr.name}} checkbox" ng-show="editing(r)">
+                              <div class="{{attr.name}} checkbox ani-test" ng-show="editing(r)">
                                  <label>
                                     <input class="{{attr.name}}" type="checkbox" ng-model="editingTriple[attr.name]">
                                     {{attr.text}}
                                  </label>
                               </div>
                            </div>
-                        <td>
+                        <td class="ani-test" ng-class="{editing: editing(r)}">
                            <div style="font-size:14pt" ng-hide="editing(r)">
                               <input type="submit" value="Edit" class="href-like" ng-click="edit(r, editingTriple)"/>
                               |
