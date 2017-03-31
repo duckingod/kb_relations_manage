@@ -22,11 +22,11 @@ body {
     font-size: 12pt;
     color: #555;
 }
-.object-attr .sym {
+.object-attr .symmetric {
     color: #AA4;
     display:inline;
 }
-.object-attr .temp {
+.object-attr .temporal {
     color: #4AA;
     display:inline;
 }

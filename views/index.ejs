@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8"/>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"/> </script>
-      <script src="js/index.js"/></script>
+      <script src="ctrl/index.js"/></script>
       <link rel="stylesheet" type="text/css" href="css/style.css"/></link>
       <title>個人der KB 屬性</title>
 
@@ -14,13 +14,12 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
       <!-- 最新編譯和最佳化的 JavaScript -->
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
    </head>
 <body>
 
 
 <div ng-controller="test" >
-   <div ng-controller="index" >
+    <div ng-controller="index">
       <div class="container">
          <div class="row">
             <div class="col-md-8 col-md-offset-2 large-font">
@@ -38,23 +37,30 @@
                   </thead>
                   <tbody>
                      <tr ng-repeat="r in triples | filter:{headEntity:formData.headEntity, tailEntity:formData.tailEntity, relation:formData.relation} | orderBy:['headEntity', 'tailEntity', 'relation']">
-                        <td ng-repeat="field in ['headEntity', 'relation', 'tailEntity']">
-                           <div ng-hide="r.editing"> {{ r[field] }} </div>
+                        <td ng-repeat="attr in stringAttrs">
+                           <div ng-hide="r.editing"> {{ r[attr.name] }} </div>
                            <div ng-show="r.editing">
-                              <input type="text" class="edit-inline" placeholder="{{r[field]}}" width="10" ng-model="edited[f]">
+                              <input type="text" class="edit-inline" placeholder="{{r[attr.name]}}" width="10" ng-model="editingTriple[attr.name]">
                            </div>
                         </td>
                         <td class="object-attr">
-                           <div class="sym" ng-show="r.symmetric">Sym</div>
-                           <div class="temp" ng-show="r.temporal">Temp</div>
+                           <div style="display:inline" ng-repeat="attr in booleanAttrs">
+                              <div class="{{attr.name}}" ng-show="r[attr.name] && !r.editing">{{attr.text}}</div>
+                              <div class="{{attr.name}} checkbox" ng-show="r.editing">
+                                 <label>
+                                    <input class="{{attr.name}}" type="checkbox" ng-model="editingTriple[attr.name]">
+                                    {{attr.text}}
+                                 </label>
+                              </div>
+                           </div>
                         <td>
                            <div style="font-size:14pt" ng-hide="r.editing">
-                              <input type="submit" value="Edit" class="href-like" ng-click="edit(r)"/>
+                              <input type="submit" value="Edit" class="href-like" ng-click="edit(r, editingTriple)"/>
                               |
                               <input type="submit" value="Delete" class="href-like" ng-click="delete(r)"/>
                            </div>
                            <div style="font-size:14pt" ng-show="r.editing">
-                           <input type="submit" value="Done" class="href-like" ng-click="edit_done(r, edited)"/>
+                           <input type="submit" value="Done" class="href-like" ng-click="editDone(r, editingTriple)"/>
                            </div>
                         </td>
                         
@@ -68,23 +74,16 @@
          <div class="container">
             <form class="form-inline" ng-submit="submit()">
                <div style="margin:12px auto; text-align:center; " >
-                  <input type="text"
-                         class="form-control mt-5 mb-2 mr-sm-1 mb-sm-0"
-                         ng-model="formData.headEntity" placeholder="first"> 
-                  <input type="text"
+                  <input type="text" ng-repeat-start="attr in stringAttrs" ng-if="$first"
                          class="form-control mb-2 mr-sm-1 mb-sm-0"
-                         ng-model="formData.relation" placeholder="relation"> 
-                  <input type="text"
+                         ng-model="formData[attr.name]" placeholder="{{attr.text}}" id="relationInput"> 
+                  <input type="text" ng-repeat-end ng-if="!$first"
                          class="form-control mb-2 mr-sm-1 mb-sm-0"
-                         ng-model="formData.tailEntity" placeholder="second">
-                  <div class="checkbox">
+                         ng-model="formData[attr.name]" placeholder="{{attr.text}}"> 
+                  <div class="checkbox" ng-repeat="attr in booleanAttrs" style="display:inline">
                      <label>
-                        <input type="checkbox" ng-model="formData.symmetric">
-                        Symmetric
-                     </label>
-                     <label>
-                        <input type="checkbox" ng-model="formData.temporal">
-                        Temporal
+                        <input type="checkbox" ng-model="formData[attr.name]">
+                        {{attr.fullText}}
                      </label>
                   </div>
                <input type="submit" value="Submit" class="btn btn-primary">

@@ -15,7 +15,8 @@ models.sequelize
 app.disable('view cache');
 
 app.set('views', path.join(__dirname, 'views'));
-app.use("/js", express.static(__dirname + '/controller'));
+app.use("/ctrl", express.static(__dirname + '/controllers'));
+app.use("/js", express.static(__dirname + '/javascripts'));
 app.use("/css", express.static(__dirname + '/styles'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -53,7 +54,10 @@ app.route('/api/kbtriple')
 app.route('/api/kbtriple/:kb_id')
     .post(function(req, res) {
         // patch a kbtriple
-        var params = _.pick(req.body, 'headEntity', 'relation', 'tailEntity');
+        var params = _.pick(req.body, 'headEntity', 'relation', 'tailEntity', 'symmetric', 'temporal');
+        KBTriple.findById(req.params.kb_id).then((triple) => {
+            triple.update(params);
+        });
     })
     .delete((req, res) => {
         var id = req.params.kb_id;
