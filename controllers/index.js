@@ -57,10 +57,12 @@ app.controller('index', ['$scope', '$http', ($scope, $http) => {
     $scope.editing = triple => $scope.editingTriple.id==triple.id;
 
     $scope.submit = () => {
-        $http.post("api/kbtriple", $scope.formData);
-        $scope.triples.push($scope.formData);
-        init_relation_dict($scope.formData);
-        $("#relationInput").focus();
+        $http.post("api/kbtriple", $scope.formData).then( (res) => {
+            $scope.triples.push(res.data);
+            init_relation_dict($scope.formData);
+            $("#relationInput").focus();
+        });
+        $scope.debug = $scope.formData;
     }
     $scope.delete = triple => {
         var idx = $scope.triples.indexOf(triple);
