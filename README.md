@@ -8,19 +8,18 @@ Web for view/update KB relations.
 ```
     to install node.js (in ubuntu)
 
+```bash
+   node server.js
+```
+   to start server(port 3000)
+
 ## Pages
 
 ### Index
-All TODO
- - List all relations
-   - Sort by some selectable order
- - Create/edit/remove relation
- - Create/edit/remove entity type
- - Search some relation
-   - Auto complete
-#### Implement
- - show/search list by angularjs
- - Create/edit/remove relation/entity
-  - angularjs change value in front-end
-  - angularjs use ajax to change value in back-end
+ - [X] List all relations
+   - [X] Sort by some order
+ - [X] Create/edit/remove relation
+ - [ ] Create/edit/remove entity type
+ - [X] Search some relation
+   - [ ] Auto complete
 

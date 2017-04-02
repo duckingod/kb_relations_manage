@@ -8,7 +8,5 @@ sudo apt-get install -y nodejs
 sudo apt-get install sqlite3
 
 # install express
-npm install express sqlite body-parser lodash sequelize
-
-node setup/init_db.js
+npm install --save express sqlite body-parser lodash sequelize
 
